@@ -109,21 +109,25 @@ function createCard(word) {
 
 cardsContainer.innerHTML = words.map(createCard).join("");
 function speakWord(text) {
-  if ("speechSynthesis" in window) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    utterance.rate = 0.9;
-    window.speechSynthesis.speak(utterance);
-  } else {
-    alert("Your device does not support speech synthesis.");
-  }
-}
+  const synth = window.speechSynthesis;
 
+  if (!synth || typeof SpeechSynthesisUtterance === "undefined") {
+    alert("Your device does not support speech synthesis.");
+    return;
+  }
+  synth.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.rate = 0.9;
+  setTimeout(() => {
+    synth.speak(utterance);
+  }, 50);
+}
 cardsContainer.addEventListener("click", (e) => {
   const card = e.target.closest(".cards__item");
   if (!card) return;
 
-  // озвучка
   if (e.target.classList.contains("cards__sound")) {
     e.stopPropagation();
     speakWord(e.target.dataset.word);
@@ -132,6 +136,7 @@ cardsContainer.addEventListener("click", (e) => {
 
   card.classList.toggle("cards__item--flipped");
 });
+
 cardsContainer.addEventListener("touchstart", (e) => {
   const card = e.target.closest(".cards__item");
   if (!card) return;

@@ -9,7 +9,10 @@ span {
 }
 
 body {
-    background-image: url("/images/big-ben.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../images/big-ben.jpg');
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 

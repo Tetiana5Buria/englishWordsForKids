@@ -119,8 +119,6 @@ cardsContainer.addEventListener("click", (e) => {
     window.speechSynthesis.speak(utterance);
 
     return;
-  } else {
-    alert("Sorry, your device does not support speech synthesis.");
   }
 
   card.classList.toggle("cards__item--flipped");

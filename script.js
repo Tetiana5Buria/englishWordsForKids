@@ -83,15 +83,6 @@ const words = [
 ];
 
 const cardsContainer = document.getElementById("cards");
-function speakWord(text) {
-  if (!window.speechSynthesis) return;
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "en-US";
-  utterance.rate = 0.7;
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utterance);
-}
 
 function createCard(word) {
   return `
@@ -122,8 +113,14 @@ cardsContainer.addEventListener("click", (e) => {
   if (!card) return;
   if (e.target.classList.contains("cards__sound")) {
     e.stopPropagation();
-    speakWord(e.target.dataset.word);
+    const utterance = new SpeechSynthesisUtterance(e.target.dataset.word);
+    utterance.lang = "en-US";
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+
     return;
+  } else {
+    alert("Sorry, your device does not support speech synthesis.");
   }
 
   card.classList.toggle("cards__item--flipped");
